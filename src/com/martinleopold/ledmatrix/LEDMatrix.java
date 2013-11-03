@@ -41,14 +41,14 @@ public class LEDMatrix {
 	 * Applies {@link #rotate180()} and {@link #snakeX()} which cannot be removed by {@link #clearTransformations()}.
 	 * Use with {@link #LEDMatrix(java.lang.String, int, int)}.
 	 */
-	public static final int LANDSCAPE = 1;
+	public static final int PUSHPIXEL_LANDSCAPE = 1;
 	
 	/**
 	 * Preset for a portrait 16 x 18 LED Matrix with a LED strip layed out in a snake-like pattern.
 	 * Applies {@link #rotate90()} and {@link #snakeX()} which cannot be removed by {@link #clearTransformations().
 	 * Use with {@link #LEDMatrix(java.lang.String, int, int)}.
 	 */
-	public static final int PORTRAIT = 2;
+	public static final int PUSHPIXEL_PORTRAIT = 2;
 
 	
     private LEDMatrix() {
@@ -64,13 +64,13 @@ public class LEDMatrix {
 	public LEDMatrix(String host, int port, int preset) {
 		this();
 		switch (preset) {
-			case LANDSCAPE:
+			case PUSHPIXEL_LANDSCAPE:
 			default:
 				setup(18, 16, host, port);
 				presetTransformations.add(Transformations.ROTATE180);
 				presetTransformations.add(Transformations.SNAKEX);
 				break;
-			case PORTRAIT:
+			case PUSHPIXEL_PORTRAIT:
 				setup(16, 18, host, port);
 				presetTransformations.add(Transformations.ROTATE90);
 				presetTransformations.add(Transformations.SNAKEX);
@@ -86,7 +86,7 @@ public class LEDMatrix {
      * @param host network IP or host name to send data
      * @param port destination port (UDP)
      */
-    public LEDMatrix(int width, int height, String host, int port) {
+    public LEDMatrix(String host, int port, int width, int height) {
 		this();
 		setup(width, height, host, port);
     }
