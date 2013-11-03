@@ -140,11 +140,7 @@ public class LEDMatrix {
      * @param rgb color value
      */
     public void clear(int rgb) {
-        for (int y = 0; y < frame.height; y++) {
-            for (int x = 0; x < frame.width; x++) {
-                frame.set(x, y, rgb);
-            }
-        }
+		frame.clear(rgb);
     }
 
     /**
@@ -155,11 +151,7 @@ public class LEDMatrix {
      * @param b blue color component
      */
     public void clear(int r, int g, int b) {
-        for (int y = 0; y < frame.height; y++) {
-            for (int x = 0; x < frame.width; x++) {
-                frame.set(x, y, r, g, b);
-            }
-        }
+		frame.clear(r, g, b);
     }
     
     /**
