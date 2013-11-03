@@ -1,9 +1,11 @@
 package com.martinleopold.ledmatrix;
 
+import processing.core.PImage;
+
 /**
  * A single frame to be displayed on a LED Matrix
  *
- * @author Martin Leopold
+ * @author Martin Leopold <m@martinleopold.com>
  */
 public class Frame {
 
@@ -119,5 +121,35 @@ public class Frame {
 			}
 		}
 		return flattened;
+	}
+	
+	/**
+	 * Get this frame as PImage for display.
+	 * @return the image
+	 */
+	public PImage image() {
+		return image(1);
+	}
+	
+	/**
+	 * Get this frame as scaled PImage for display.
+	 * @param scale the size of a frame pixel in the image
+	 * @return the image
+	 */
+	public PImage image(int scale) {
+		PImage img = new PImage(width*scale, height*scale);
+		img.loadPixels();
+		int idx = 0;
+		for (int y = 0; y < height; y++) {
+			for (int j=0; y<=scale; j++) {
+				for (int x = 0; x < width; x++) {
+					for (int i=0; i<scale; i++) {
+						img.pixels[idx++] = get(x,y);
+					}
+				}
+			}
+		}
+		img.updatePixels();
+		return img;
 	}
 }
