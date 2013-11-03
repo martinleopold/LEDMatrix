@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.martinleopold.ledmatrix;
 
 /**
@@ -41,6 +37,24 @@ public class Frame {
 					data[x][y][0] = f.data[x][y][0];
 					data[x][y][1] = f.data[x][y][1];
 					data[x][y][2] = f.data[x][y][2];
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Set the frame from a byte array containing the rows (from left to right) in sequence from top to bottom.
+	 * @param data 
+	 */
+	public void set(byte[] data) {
+		// check data length 
+		if (data.length != width*height*3) return;
+		
+		int idx = 0;
+		for (int y = 0; y < height; y++) {
+			for (int x = 0; x < width; x++) {
+				for (int i = 0; i < 3; i++) {
+					this.data[x][y][i] = data[idx++];
 				}
 			}
 		}
