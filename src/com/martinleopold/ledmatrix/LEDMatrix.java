@@ -27,7 +27,6 @@ import java.util.ArrayList;
  */
 public class LEDMatrix {
     public final static String VERSION = "##library.prettyVersion## (##library.version##)";
-	PApplet p;
     UDP udp;
     Frame frame;
     String host; // destination host name or ip
@@ -40,32 +39,30 @@ public class LEDMatrix {
 	/**
 	 * Preset for a landscape 18 x 16 LED Matrix with a LED strip layed out in a snake-like pattern.
 	 * Applies {@link #rotate180()} and {@link #snakeX()} which cannot be removed by {@link #clearTransformations()}.
-	 * Use with {@link #LEDMatrix(processing.core.PApplet, java.lang.String, int, int)}.
+	 * Use with {@link #LEDMatrix(java.lang.String, int, int)}.
 	 */
 	public static final int LANDSCAPE = 1;
 	
 	/**
 	 * Preset for a portrait 16 x 18 LED Matrix with a LED strip layed out in a snake-like pattern.
 	 * Applies {@link #rotate90()} and {@link #snakeX()} which cannot be removed by {@link #clearTransformations().
-	 * Use with {@link #LEDMatrix(processing.core.PApplet, java.lang.String, int, int)}.
+	 * Use with {@link #LEDMatrix(java.lang.String, int, int)}.
 	 */
 	public static final int PORTRAIT = 2;
 
 	
-    private LEDMatrix(PApplet p) {
+    private LEDMatrix() {
 		welcome();
-        this.p = p;
     }
 	
 	/**
 	 * A LED Matrix configured from a preset.
-	 * @param p the parent PApplet
      * @param host network IP or host name to send data
      * @param port destination port (UDP)
 	 * @param preset Choose from either {@link #LANDSCAPE} or {@link #PORTRAIT}
 	 */
-	public LEDMatrix(PApplet p, String host, int port, int preset) {
-		this(p);
+	public LEDMatrix(String host, int port, int preset) {
+		this();
 		switch (preset) {
 			case LANDSCAPE:
 			default:
@@ -84,14 +81,13 @@ public class LEDMatrix {
     /**
      * A LED Matrix.
      *
-     * @param p the parent PApplet
      * @param width width of the LED Matrix in pixels
      * @param height height of the LED Matrix in pixels
      * @param host network IP or host name to send data
      * @param port destination port (UDP)
      */
-    public LEDMatrix(PApplet p, int width, int height, String host, int port) {
-		this(p);
+    public LEDMatrix(int width, int height, String host, int port) {
+		this();
 		setup(width, height, host, port);
     }
 	
@@ -107,7 +103,7 @@ public class LEDMatrix {
 	}
 	
 	void initSocket() {
-		udp = new UDP(p);
+		udp = new UDP(this);
 	}
 	
 	public void reconnect() {
