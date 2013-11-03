@@ -103,7 +103,18 @@ public class LEDMatrix {
         // initialize frame
         frame = new Frame(width, height);
         // initialize udp
-        udp = new UDP(p);
+		initSocket();
+	}
+	
+	void initSocket() {
+		udp = new UDP(p);
+	}
+	
+	public void reconnect() {
+		if (udp != null) {
+			udp.dispose();
+		}
+		initSocket();
 	}
 
     private void welcome() {
@@ -175,7 +186,7 @@ public class LEDMatrix {
     }
 	
 	/**
-	 * Retrieve the width of the LED Matrix,
+	 * Retrieve the width of the LED Matrix.
 	 * @return width of the led matrix in pixels.
 	 */
 	public int width() {
@@ -183,11 +194,19 @@ public class LEDMatrix {
 	}
 	
 	/**
-	 * Retrieve the height of the LED Matrix,
+	 * Retrieve the height of the LED Matrix.
 	 * @return height of the led matrix in pixels.
 	 */
 	public int height() {
 		return frame.height;
+	}
+	
+	/**
+	 * Get direct access to the Frame object.
+	 * @return the frame object
+	 */
+	public Frame frame() {
+		return frame;
 	}
 
     /*
