@@ -1,5 +1,6 @@
 package com.martinleopold.ledmatrix;
 
+import processing.core.PApplet;
 import processing.core.PImage;
 
 /**
@@ -87,8 +88,12 @@ public class Frame {
 	 */
 	public int get(int x, int y) {
 		if (x >= 0 && x < width && y >= 0 && y < height) {
+			// un-sign those bytes!
+			int r = data[x][y][0] & 0xff;
+			int g = data[x][y][1] & 0xff;
+			int b = data[x][y][2] & 0xff;
 			// construct an int out of rgb
-			return 0xff000000 | (data[x][y][0] << 16) | (data[x][y][1] << 8) | data[x][y][2];
+			return 0xff000000 | (r << 16) | (g << 8) | (b);
 		} else {
 			throw new IllegalArgumentException("coordinates out of bounds: x=" + x + " y=" + y);
 		}
@@ -141,7 +146,7 @@ public class Frame {
 		img.loadPixels();
 		int idx = 0;
 		for (int y = 0; y < height; y++) {
-			for (int j=0; y<=scale; j++) {
+			for (int j=0; j<scale; j++) {
 				for (int x = 0; x < width; x++) {
 					for (int i=0; i<scale; i++) {
 						img.pixels[idx++] = get(x,y);
