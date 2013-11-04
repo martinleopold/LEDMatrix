@@ -1,4 +1,4 @@
-import hypermedia.net.*;
+import com.martinleopold.ledmatrix.*;
 
 /* Parameters */
 int port = 8888; // listening port
@@ -10,40 +10,22 @@ int pxSize = 25; // size of a pixel (in this app)
 
 
 /* Variables */
-UDP udp; // define the UDP object
-int[] frame; // the current frame. series of int colors, row by row.
+Receiver r;
 
 void setup() {
   size(pxSize*widthPx, pxSize*heightPx);
-  udp = new UDP(this, port);
-  udp.listen(true);
-  frame = new int[widthPx*heightPx];
-  noStroke();
   frameRate(fps);
+  
+  r = new Receiver(port, LEDMatrix.PUSHPIXEL_LANDSCAPE);
+  //r = new Receiver(port, LEDMatrix.PUSHPIXEL_PORTRAIT);
+  
+  r.setFrameHandler(new Receiver.FrameHandler() {
+    public void receive( Frame frame, String ip, int port ) {
+      System.out.println("received a Frame from " + ip + ":" + port);
+    }
+  });
 }
 
 void draw() {
-  scale(pxSize);
-  // draw the frame
-  int idx=0;
-  for (int y=0; y<heightPx; y++) {
-    for (int x=0; x<widthPx; x++) {
-      fill(frame[idx++]);
-      rect(x, y, 1, 1);
-    }
-  }
-}
-
-// callback for packet received
-void receive( byte[] data, String ip, int port ) {
-  // check data length
-  if (data.length != widthPx*heightPx*3) {
-    println( "data length mismatch: " + (data.length - widthPx*heightPx*3) );
-    return;
-  }
-  // update the frame.
-  int idx = 0;
-  for (int i=0; i<data.length; i+=3) {
-    frame[idx++] = color(int(data[i]), int(data[i+1]), int(data[i+2]));
-  }
+  //image(r.frame().image(pxSize), 0, 0);
 }

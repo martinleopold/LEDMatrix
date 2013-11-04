@@ -6,18 +6,23 @@ int port = 8888; // destination port
 int fps = 15; // frames per second to send.
 int widthPx = 18;
 int heightPx = 16;
+int pxSize = 10;
+
 LEDMatrix lm;
 
 void setup() {
-  lm = new LEDMatrix(this, widthPx, heightPx, host, port);
-  //lm = new LEDMatrix(this, host, port, LEDMatrix.LANDSCAPE);
-  //lm = new LEDMatrix(this, host, port, LEDMatrix.PORTRAIT);
+  size(widthPx*pxSize, heightPx*pxSize);
+  
+  lm = new LEDMatrix(host, port, LEDMatrix.PUSHPIXEL_LANDSCAPE);
+  //lm = new LEDMatrix(host, port, LEDMatrix.PUSHPIXEL_PORTRAIT);
+  //lm = new LEDMatrix(host, port, widthPx, heightPx);
   
   lm.testPattern();
   frameRate(fps);
 }
 
 void draw() {
+  image( lm.frame().image(pxSize), 0, 0 ); // draw the frame
   lm.update();
 }
 
